@@ -11,7 +11,6 @@ import { CustomValidator } from '../../validator/custom-validator';
 export class ToDoComponent implements OnInit{
 
   todoForm !: FormGroup;
-
   todos : ToDo[] = [];
 
   //function to load todos from local storage
@@ -23,7 +22,7 @@ export class ToDoComponent implements OnInit{
     }
   }
 
-  todo : ToDo = new ToDo("", "", new Date());
+  // todo : ToDo = new ToDo("", "", new Date(), false);
 
   constructor(private formBuilder : FormBuilder){}
   
@@ -41,6 +40,9 @@ export class ToDoComponent implements OnInit{
   onSubmit(){
     if(this.todoForm.valid){
       const input : ToDo = this.todoForm.value as ToDo;
+      //set the completed as false
+      input.completed = false;
+
       console.log(input);
       this.todos.push(input);
       //save todos to local storage; must JSON.stringify
@@ -54,6 +56,11 @@ export class ToDoComponent implements OnInit{
   onDelete(index : number){
     console.info("delete");
     this.todos.splice(index, 1)
+    localStorage.setItem("todos", JSON.stringify(this.todos));
+  }
+
+  onToggleComplete(index: number) {
+    this.todos[index].completed = !this.todos[index].completed;
     localStorage.setItem("todos", JSON.stringify(this.todos));
   }
 
