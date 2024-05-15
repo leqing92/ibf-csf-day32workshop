@@ -63,6 +63,7 @@
                 <div class="row">
                     <div class="col-1">
                         <input type="checkbox" [checked]="todo.completed" (change)="onToggleComplete(i)">
+                        <label>completed</label>
                     </div>
                     <div class="col-10">
                         <h3>{{ todo.description }}</h3>
@@ -73,8 +74,9 @@
                     
                 </div>
                 <div class="row">
-                    <div class="col-11">
-                        <p style="font-style: italic;">{{ todo.priority }}</p>
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                        <p style="font-style: italic;">Priority : {{ todo.priority }}</p>
                     </div>
                     <div class="col-1">
                         <p>{{ todo.due | date:'MMM dd'}}</p>
