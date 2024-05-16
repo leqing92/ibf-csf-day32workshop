@@ -49,18 +49,18 @@
                 </span>
             </div>
 
-            <div *ngIf="todoForm.invalid; else formNoError">
+            <div *ngIf="todoForm.invalid">
                 <button type="submit" class="btn btn-secondary">Disable</button>
             </div>
 
-            <ng-template #formNoError>
+            <div *ngIf="!todoForm.invalid">
                 <div *ngIf="editMode ; else addMode">
                     <button type="submit" class="btn btn-primary" (click)="toUpdate()">Update</button>
                 </div>
                 <ng-template #addMode>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </ng-template>
-            </ng-template>
+            </div>
 
             <div class="row mb-3"></div>
         </form>
