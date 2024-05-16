@@ -10,6 +10,9 @@
                 <span class="alert alert-danger" *ngIf="todoForm.get('description')?.hasError('required')">
                     Description required
                 </span>
+                <span class="alert alert-danger" *ngIf="todoForm.get('description')?.hasError('minlength')">
+                    Description required min. 5 alphapet
+                </span>
             </div>
         
             <div class="row mb-3">
@@ -45,8 +48,20 @@
                     Due date cannot be past date
                 </span>
             </div>
-            
-            <button type="submit" class="btn btn-primary">Submit</button>
+
+            <div *ngIf="todoForm.invalid; else formNoError">
+                <button type="submit" class="btn btn-secondary">Disable</button>
+            </div>
+
+            <ng-template #formNoError>
+                <div *ngIf="editMode ; else addMode">
+                    <button type="submit" class="btn btn-primary" (click)="toUpdate()">Update</button>
+                </div>
+                <ng-template #addMode>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </ng-template>
+            </ng-template>
+
             <div class="row mb-3"></div>
         </form>
     </div>
@@ -56,6 +71,7 @@
 
 <div class = "row">
     <div class="col-1"></div>
+
     <div class="col-10  border">
         <h1 style="color: orange; font-weight: bold;">Task</h1>
         <div *ngIf="todos.length > 0; else empty">
@@ -69,12 +85,15 @@
                         <h3>{{ todo.description }}</h3>
                     </div>
                     <div class="col-12 col-md-1 d-flex justify-content-end">
-                        <button type="click" class="btn btn-danger"  style="margin-right: -35px;" (click)="onDelete(i)">X</button>
+                        <button type="click" class="btn btn-danger" style="margin-right: -35px;" (click)="onDelete(i)">X</button>
                     </div>
                     
                 </div>
                 <div class="row">
-                    <div class="col-12 col-md-1"></div>
+                    <div class="col-12 col-md-1">
+                        <button type="click" class="btn btn-primary btn-sm " (click)="toEdit(i)">Edit</button>
+                        
+                    </div>
                     <div class="col-12 col-md-10">
                         <p style="font-style: italic;">Priority : {{ todo.priority }}</p>
                     </div>
@@ -84,9 +103,11 @@
                 </div>
             </div>
         </div>
+
         <ng-template #empty>
             <h3>No task</h3>
         </ng-template>
+
         <div class="row mb-3"></div>
     </div>
     <div class="col-1"> </div>
